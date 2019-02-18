@@ -1,0 +1,67 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fusen Note Error</title>
+
+<!-- javascript -->
+<script type="text/javascript" src="./scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="./scripts/jquery.mousewheel.js"></script>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+
+<!-- css -->
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/fusen_style_1.1.css" type="text/css">
+
+<script type="text/javascript">
+$(document).ready( function(){
+	
+	//mousewheelスクロール無効
+	$("body").mousewheel(function(event, delta, deltaX, deltaY) {
+		if (event.preventDefault) {
+	        event.preventDefault();
+	    }
+	    event.returnValue = false;
+    });
+
+});
+</script>
+
+</head>
+
+<body>
+<div style="margin:0 auto; width:980px;">
+
+<div class="headerspace">
+<div><a style="text-decoration: none;" href="<%=request.getContextPath() %>/">
+	<img id="logo-img1" 
+		src="<%=request.getContextPath() %>/images/logo_1.png" 
+		border="0"
+		alt="Fusen Note" />
+	</a>
+</div><br>
+<div><img id="logo-img2" 
+	src="<%=request.getContextPath() %>/images/logo_2.png" 
+	border="0"
+	alt="Online Fusen Application" />
+</div>
+</div>
+<div class="bodyspace">
+
+    <h4>サーバーでエラーを検知しました。ただいま処理を続けることができません。<br>しばらく待ってから再度アクセスしていただくようお願いいたします。</h4>
+
+</div>
+</div>
+
+<div class="footerspace">
+	<div align="center"><p>Copyright © rmat All Rights Reserved.</p></div>
+</div>
+	
+</body>
+</html>

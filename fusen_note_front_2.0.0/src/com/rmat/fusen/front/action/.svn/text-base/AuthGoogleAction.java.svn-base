@@ -1,0 +1,47 @@
+package com.rmat.fusen.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import com.rmat.fusennote.bl.AuthGoogleBL;
+
+public class AuthGoogleAction  extends Action {
+
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		
+		String page_id = request.getParameter("page_id");
+		AuthGoogleBL authgooglebl = new AuthGoogleBL();
+		int result;
+		
+		if(page_id == null || page_id.equals("")){
+			return mapping.findForward("system_error");
+		}
+		//-------------------oauth------------------
+		else if(page_id.equals("oauth")){
+			result = authgooglebl.doAuthoraization(request, response);
+			switch(result){
+			case 0: return mapping.findForward("oauth_success");
+			case 1: return mapping.findForward("oauth_error");
+			case 2: return mapping.findForward("to_top");
+			case 99: return mapping.findForward("system_error");
+			default: return mapping.findForward("system_error");
+			}
+			
+		}
+		//-------------------other------------------
+		else{
+			return mapping.findForward("system_error");
+		}
+		
+	}
+	
+}

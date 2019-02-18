@@ -1,0 +1,51 @@
+package com.rmat.fusen.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import com.rmat.fusennote.bl.AuthGoogleBL;
+import com.rmat.fusennote.bl.BoardBL;
+
+public class BoardAction  extends Action {
+
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		
+		String page_id = request.getParameter("page_id");
+		BoardBL boardbl = new BoardBL();
+		int result;
+		
+		if(page_id == null || page_id.equals("")){
+			return mapping.findForward("system_error");
+		}
+		//-------------show board-------------
+		else if(page_id.equals("show_board")){
+			result = boardbl.doShowBoard(request, response);
+			switch(result){
+			case 0: return mapping.findForward("show_board_success");
+			case 1: return mapping.findForward("show_board_error");
+			case 99: return mapping.findForward("system_error");
+			default: return mapping.findForward("system_error");
+			}
+		}
+		//-------------show boardÅ@without login-------------
+		else if(page_id.equals("show_board_nologin")){
+			request.setAttribute("loginstate", "nologin");
+			return mapping.findForward("show_board_success");
+
+		}
+		//-------------------other------------------
+		else{
+			return mapping.findForward("system_error");
+		}
+		
+	}
+}

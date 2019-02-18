@@ -1,0 +1,214 @@
+<%@page import="com.rmat.fusennote.function.google.GoogleOauthManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	String email = (String)request.getSession().getAttribute(GoogleOauthManager.EMAIL_KEY);
+	boolean login_flg = false;
+	if(email != null){
+		login_flg = true;
+	}
+	else{
+		email = "";
+	}
+
+	String display = "";
+	String loginstate = (String)request.getAttribute("loginstate");
+	if(loginstate != null){
+		if(loginstate.equals("nologin")){
+			display= "display:none;";
+		}
+	}
+%>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Fusen Note</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+<link rel="stylesheet" href="css/topstyle.css" type="text/css">
+-->
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+
+<!-- css -->
+
+<link rel="stylesheet" href="css/basic_style.css" type="text/css">
+
+<!-- javascript -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery.flickable-1.0b3.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/smoothness/jquery-ui-1.8.16.custom.css" />
+
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/notesystem.2.0.0.js"></script>
+
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/basic_notes.2.0.0.js"></script>
+
+<script type="text/javascript">
+
+jQuery.extend({
+    stringify : function stringify(obj) {
+        var t = typeof (obj);
+        if (t != "object" || obj === null) {
+            // simple data type
+            if (t == "string") obj = '"' + obj + '"';
+            return String(obj);
+        } else {
+            // recurse array or object
+            var n, v, json = [], arr = (obj && obj.constructor == Array);
+ 
+            for (n in obj) {
+                v = obj[n];
+                t = typeof(v);
+                if (obj.hasOwnProperty(n)) {
+                    if (t == "string") v = '"' + v + '"'; else if (t == "object" && v !== null) v = jQuery.stringify(v);
+                    json.push((arr ? "" : '"' + n + '":') + String(v));
+                }
+            }
+            return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+        }
+    }
+});
+
+$(document).ready( function(){
+	//アコーディオン
+	$("div#account").hover(function() {
+		$(this).children('ul').show();
+		$(this).children('span').css('color','#1b5ee5');
+		$(this).children('span').css('text-decoration', 'underline');
+	}, function() {
+		$(this).children('ul').hide();
+		$(this).children('span').css('color','');
+		$(this).children('span').css('text-decoration', 'none');
+	});
+});
+	
+</script>
+
+<!-- メニューリンク押下時処理 -->
+<script type="text/javascript" language="javascript">
+
+var loadfromDrive = function(){
+	Basicnoteapp.DateSynchronizer.showDataFromDrive();
+};
+
+var toTop = function(){
+	location.replace("<%=request.getContextPath() %>/");
+};
+
+var toLogout = function(){
+	location.replace("<%=request.getContextPath() %>/login.do?page_id=logout");
+};
+
+var LoginwithGoogleDrive = function(){
+	location.replace("<%=request.getContextPath() %>/authgoogledrive.do?page_id=oauth");
+};
+var saveToDrive = function(){
+	Basicnoteapp.DateSynchronizer.saveDataToDrive();
+}
+</script>
+
+</head>
+
+<body id="base" onselectstart="return false;">
+
+<!-- 付箋削除ダイアログ-->
+<div id="specialdeletenotedlg" title="Delete Note" style="display : none;">
+付箋を削除しますか。<br/>
+</div>
+
+<!-- INFOダイアログ-->
+<div id="informationdlg" title="Info" style="display : none;">
+</div>
+
+<!-- 掲示板ベース -->
+<div id="boardflame">
+	<!-- 掲示板 -->
+	<div class="specialboard" 
+		id="myboard_001"
+		 style=" background: url(<%=request.getContextPath() %>/images/background/back-0008.gif); width: 6000px; height: 3000px;">
+	</div>
+
+	<!-- ガイドウィンドウ -->
+	<div id="guidewindow" style="display : none;">
+
+	</div>
+</div>
+
+
+<div class="menuboard">
+    <!-- メニュー -->
+    <div id="toplogo">
+    	<a style="text-decoration: none;" href="<%=request.getContextPath() %>/">
+		<div onclick="toTop()">
+		<img id="logo-img1" 
+			src="<%=request.getContextPath() %>/images/logo_1.png" 
+			border="0"
+			alt="Fusen Note" />
+		</div>
+		<div><img id="logo-img2"  
+			src="<%=request.getContextPath() %>/images/logo_2.png" 
+			border="0"
+			alt="Online Fusen Application" />
+		</div>
+		</a>
+	</div>
+<%
+if(login_flg == true){
+
+%>
+	<div id="account">
+		<span><%=email %></span>
+		<ul id="account-menu">
+			<li>
+				<img id="preference_icon" border="0" src="<%=request.getContextPath() %>/images/icon/preference_icon_grey.png" style="height: 20px; vertical-align:middle;" >
+            	<span style="color:#1b5ee5;">設定</span>
+			</li>
+			<li onclick="toLogout()">
+				<img id="user_icon" border="0" src="<%=request.getContextPath() %>/images/icon/logout_icon_grey.png" style="height:20px; vertical-align:middle;">
+            	<span style="color:#1b5ee5;">ログアウト</span>
+			</li>
+		</ul>
+	</div>
+	
+<%
+}
+else{
+%>	
+
+	<div id="account">
+		<span onclick="LoginwithGoogleDrive()">ログイン</span>
+
+	</div>
+<%
+}
+%>	
+    <!--メニューバー -->
+    <ul id="menu">
+        <li id="menu_newnote" class="menuicon" onclick="loadfromDrive()">
+            <img id="newnote_icon" border="0" src="<%=request.getContextPath() %>/images/icon/newnote_icon_grey.png" style="height: 40px; margin:0 auto; vertical-align:middle;" >
+            <span style="color:#1b5ee5;">Create Fusen</span>
+        </li>
+        <li id="menu_load" class="menuicon" style="<%=display %>" onclick="saveToDrive()">
+            <img id="load_icon" border="0" src="<%=request.getContextPath() %>/images/icon/load_icon_blue.png" style="height: 40px; margin:0 auto; vertical-align:middle; " >
+            <span style="color:#1b5ee5;">Save To GoogleDrive</span>
+        </li>
+    </ul>
+    
+</div>
+
+<!-- 通信中ブロッキング -->
+<div id="displaylock"><img src="./images/icon/nowloading_white.gif" /></div>
+
+
+</body>
+</html>

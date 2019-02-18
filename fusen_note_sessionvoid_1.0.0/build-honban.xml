@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project name="Fusen_Note2.0-Project" default="deploy" basedir=".">
+    <description>build-honban.xml</description>
+
+    <!-- Read proerty-file -->
+    <property file="build-honban.properties" />
+
+    <property name="SRCDIR" location="src"/>
+    <property name="SRCDIR_CLIENT" location="client"/>
+    
+    <property name="BUILDDIR" location="build"/>
+    <property name="TARGETDIR" location="target"/>
+    <property name="TEMPDIR" location="temp"/>
+    <property name="APPHOME" location="WebContent"/>
+    
+    <property name="JAVAEELIB" location="C:\\jboss-6.1.0.Final\\client"/>
+    
+    <target name="showmessage">
+        <echo message="*******************************************"/>
+        <echo message="****   Fusen Note SessionVoid building task"/>
+        <echo message="****   Apache ant version:${ant.version}"/>
+        <echo message="*******************************************"/>
+    </target>
+
+    <target name="init" depends="showmessage">
+        <!-- Create the time stamp -->
+        <tstamp/>
+
+        <!-- Delete the build directory structure used when compile -->
+        <echo message="Delete the build directory" />
+        <delete dir="${BUILDDIR}" />
+        <delete dir="${TARGETDIR}"/>
+        <delete dir="${TEMPDIR}" />
+
+        <!-- Create the build directory structure used when compile -->
+        <echo message="Create a new build directory structure" />
+        <mkdir dir="${BUILDDIR}\\classes"/>
+        <mkdir dir="${TARGETDIR}"/>
+        <mkdir dir="${TEMPDIR}\\META-INF" />
+        <mkdir dir="${TEMPDIR}\\WEB-INF" />
+    </target>
+    
+    <target name="compile" depends="init" description="compile the source" >
+        <!-- Compile the java code -->
+        <echo message="Compile the java code." />
+        <javac srcdir="${SRCDIR}" destdir="${BUILDDIR}\\classes"  encoding="utf-8">
+            <classpath>
+                <fileset dir="${JAVAEELIB}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="copy_log4j.properties" depends="init" description="copy app.log4j.properties">
+        <filter token="log_file" value="${LOG_FILE}" />
+        <filter token="log_level" value="${LOG_LEVEL}" />
+        <copy preservelastmodified="true"
+              file="${SRCDIR}\\log4j.properties"
+            tofile="${BUILDDIR}\\classes\\log4j.properties"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+    
+    <target name="copy_app.properties" depends="init" description="copy app.properties">
+        <filter token="appname" value="${APPNAME}" />
+        <filter token="session_delete_time" value="${SESSION_DELETE_TIME}" />
+        <filter token="timer_interval" value="${TIMER_INTERVAL}" />
+        <filter token="method_timeout" value="${METHOD_TIMEOUT}" />
+        <filter token="jdbc_res_name" value="${JDBC_RES_NAME}" />
+        <filter token="jdbc_driver" value="${JDBC_DRIVER}" />
+        <filter token="jdbc_connectionurl" value="${JDBC_CONNECTIONURL}" />
+        <filter token="jdbc_database" value="${JDBC_DATABASE}" />
+        <filter token="jdbc_user" value="${JDBC_USER}" />
+        <filter token="jdbc_password" value="${JDBC_PASSWORD}" />
+        <copy preservelastmodified="true"
+              file="${SRCDIR}\\com\\rmat\\fusen\\sessionvoid\\util\\app.properties"
+            tofile="${BUILDDIR}\\classes\\com\\rmat\\fusen\\sessionvoid\\util\\app.properties"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+
+    <target name="makejar" depends="compile,copy_log4j.properties,copy_app.properties" description="maek ear file">
+		<jar basedir="${BUILDDIR}\\classes" jarfile="${BUILDDIR}\\${APPNAME}.jar" >
+
+		</jar>
+	</target>
+	
+    <target name="copy_application.xml" depends="init" description="copy application.xml">
+        <filter token="appname" value="${APPNAME}" />
+        <copy preservelastmodified="true"
+              file="application.xml"
+            tofile="${BUILDDIR}\\application.xml"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+    
+    <target name="copy_lib" depends="init" description="copy library jars used in EJB">
+        <copy preservelastmodified="true"
+              file="lib\\log4j-1.2.9.jar"
+            tofile="${BUILDDIR}\\lib\\log4j-1.2.9.jar"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+    
+    <target name="makeear" depends="makejar,copy_application.xml,copy_lib" description="maek ear file">
+		<zip zipfile="${TARGETDIR}\\${APPNAME}.ear">
+        	<zipfileset dir="${BUILDDIR}" prefix="META-INF">
+            	<include name="application.xml"/>
+         	</zipfileset>
+         	<zipfileset dir="${BUILDDIR}">
+            	<include name="${APPNAME}.jar"/>  <!--EJB-->
+         	</zipfileset>
+         	<!-- 
+            <zipfileset dir="${BUILDDIR}\\lib">
+                <include name="log4j-1.2.9.jar"/>
+            </zipfileset>
+             -->
+      </zip>
+	</target>
+	
+    <target name="make_dsfile" depends="init" description="make postgres-ds.xml">
+
+        <filter token="jdbc_jndi_name" value="${JDBC_JNDI_NAME}" />
+        <filter token="jdbc_driver" value="${JDBC_DRIVER}" />
+        <filter token="jdbc_connectionurl" value="${JDBC_CONNECTIONURL}" />
+        <filter token="jdbc_user" value="${JDBC_USER}" />
+        <filter token="jdbc_password" value="${JDBC_PASSWORD}" />
+        <filter token="jdbc_min_poolsize" value="${JDBC_MIN_POOLSIZE}" />
+        <filter token="jdbc_max_poolsize" value="${JDBC_MAX_POOLSIZE}" />
+        <copy preservelastmodified="true"
+              file="template_postgres-ds.xml"
+            tofile="${TARGETDIR}\\${APPNAME}_postgres-ds.xml"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+
+    <target name="clientcompile" depends="init,compile" description="compile the source" >
+        <!-- Compile the java code -->
+        <echo message="Compile the java code for client." />
+        <javac srcdir="${SRCDIR_CLIENT}" destdir="${TARGETDIR}"  encoding="utf-8">
+            <classpath>
+                <fileset dir="${JAVAEELIB}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${BUILDDIR}">
+                    <include name="${APPNAME}.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="complete" depends="makeear,make_dsfile,clientcompile">
+        <!-- Create the time stamp -->
+        <tstamp/>
+
+        <!-- Delete the temp directory -->
+        <delete dir="${TEMPDIR}" />
+
+    </target>
+
+</project>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fusen Note Error</title>
+
+<!-- javascript -->
+<script type="text/javascript" src="./scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="./scripts/jquery.mousewheel.js"></script>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+
+<!-- css -->
+<link rel="stylesheet" href="/css/fusen_style_1.1.css" type="text/css">
+
+<script type="text/javascript">
+$(document).ready( function(){
+	
+	//mousewheelスクロール無効
+	$("body").mousewheel(function(event, delta, deltaX, deltaY) {
+		if (event.preventDefault) {
+	        event.preventDefault();
+	    }
+	    event.returnValue = false;
+    });
+
+});
+</script>
+
+</head>
+
+<body>
+<div style="margin:0 auto; width:980px;">
+
+<div class="headerspace">
+<div><a style="text-decoration: none;" href="/">
+	<img id="logo-img1" 
+		src="/images/logo_1.png" 
+		alt="Fusen Note" />
+	</a>
+</div><br>
+<div><img id="logo-img2" 
+	src="/images/logo_2.png" 
+	alt="Online Fusen Application" />
+</div>
+</div>
+<div class="bodyspace">
+
+    <h4>お探しのページは見つかりませんでした。<br>Not Found:404</h4>
+
+</div>
+</div>
+
+<div class="footerspace">
+	<div align="center"><p>Copyright © rmat All Rights Reserved.</p></div>
+</div>
+	
+</body>
+</html>

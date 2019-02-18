@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project name="Fusen_Note2.0-Project" default="deploy" basedir=".">
+    <description>build-honban.xml</description>
+
+    <!-- Read proerty-file -->
+    <property file="build-local.properties" />
+
+    <property name="SRCDIR" location="src"/>
+    <property name="BUILDDIR" location="build"/>
+    <property name="TARGETDIR" location="target"/>
+    <property name="TEMPDIR" location="temp"/>
+    <property name="APPHOME" location="WebContent"/>
+    
+    <property name="JAVAEELIB" location="C:\\jboss-6.1.0.Final\\client"/>
+    
+    <target name="showmessage">
+        <echo message="*************************************"/>
+        <echo message="****   Fusen Note2.0 building task"/>
+        <echo message="****   Apache ant version:${ant.version}"/>
+        <echo message="*************************************"/>
+    </target>
+
+    <target name="init" depends="showmessage">
+        <!-- Create the time stamp -->
+        <tstamp/>
+
+        <!-- Delete the build directory structure used when compile -->
+        <echo message="Delete the build directory" />
+        <delete dir="${BUILDDIR}" />
+        <delete dir="${TARGETDIR}"/>
+        <delete dir="${TEMPDIR}" />
+
+        <!-- Create the build directory structure used when compile -->
+        <echo message="Create a new build directory structure" />
+        <mkdir dir="${BUILDDIR}\\classes"/>
+        <mkdir dir="${TARGETDIR}"/>
+        <mkdir dir="${TEMPDIR}\\META-INF" />
+        <mkdir dir="${TEMPDIR}\\WEB-INF" />
+    </target>
+
+    <target name="copy_context" depends="init" description="copy context.xml to temp dir">
+        <!-- inject constant parameters -->
+        <filter token="jdbc_res_name" value="${JDBC_RES_NAME}" />
+        <filter token="jdbc_driver" value="${JDBC_DRIVER}" />
+        <filter token="jdbc_connectionurl" value="${JDBC_CONNECTIONURL}" />
+        <filter token="jdbc_database" value="${JDBC_DATABASE}" />
+        <filter token="jdbc_user" value="${JDBC_USER}" />
+        <filter token="jdbc_password" value="${JDBC_PASSWORD}" />
+        <filter token="jdbc_maxactive" value="${JDBC_MAXACTIVE}" />
+        <filter token="jdbc_maxidle" value="${JDBC_MAXIDLE}" />
+        <filter token="jdbc_maxwait" value="${JDBC_MAXWAIT}" />
+        <copy preservelastmodified="true"
+              file="${APPHOME}\\META-INF\\context.xml"
+            tofile="${TEMPDIR}\\META-INF\\context.xml"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+
+    <target name="copy_web.xml" depends="init" description="copy web.xml to temp dir">
+        <!-- inject constant parameters -->
+        <filter token="jdbc_res_name" value="${JDBC_RES_NAME}" />
+        <copy preservelastmodified="true"
+              file="${APPHOME}\\WEB-INF\\web.xml"
+            tofile="${TEMPDIR}\\WEB-INF\\web.xml"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+
+    <target name="compile" depends="init" description="compile the source" >
+        <!-- Compile the java code -->
+        <echo message="Compile the java code." />
+        <javac srcdir="${SRCDIR}" destdir="${BUILDDIR}\\classes"  encoding="utf-8">
+            <classpath>
+                <fileset dir="${APPHOME}\\WEB-INF\\lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${JAVAEELIB}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="copy_log4j.properties" depends="init" description="copy app.log4j.properties">
+        <filter token="log_file_name" value="${APP_LOG_NAME}" />
+        <copy preservelastmodified="true"
+              file="${SRCDIR}\\log4j.properties"
+            tofile="${BUILDDIR}\\classes\\log4j.properties"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+    
+    <!-- 
+    <target name="copy_name.properties" depends="init" description="copy name.properties">
+        <filter token="jdbc_res_name" value="${JDBC_RES_NAME}" />
+        <filter token="jdbc_driver" value="${JDBC_DRIVER}" />
+        <filter token="jdbc_connectionurl" value="${JDBC_CONNECTIONURL}" />
+        <filter token="jdbc_database" value="${JDBC_DATABASE}" />
+        <filter token="jdbc_user" value="${JDBC_USER}" />
+        <filter token="jdbc_password" value="${JDBC_PASSWORD}" />
+        <copy preservelastmodified="true"
+              file="${SRCDIR}\\jp\\co\\nri\\r1ec\\jt\\util\\name.properties"
+            tofile="${BUILDDIR}\\classes\\jp\\co\\nri\\r1ec\\jt\\util\\name.properties"
+            overwrite="yes"
+            filtering="true"
+       />
+    </target>
+         -->
+
+    <target name="makewar" depends="copy_context,copy_web.xml,compile,copy_log4j.properties" description="make war file">
+        <!-- make war file -->
+        <echo message="make a war file" />
+        <war destfile="${TARGETDIR}\\${APPNAME}.war" webxml="${TEMPDIR}\\WEB-INF\\web.xml">
+            <fileset dir="${APPHOME}">
+                <exclude name="**\\web.xml" />
+                <exclude name="**\\context.xml" />
+            </fileset>
+            <classes dir="${BUILDDIR}\\classes" />
+            <lib dir="${APPHOME}\\WEB-INF\\lib" />
+            <metainf dir="${TEMPDIR}\\META-INF" includes="*.xml"/>
+        </war>
+    </target>
+
+    <target name="complete" depends="makewar">
+        <!-- Create the time stamp -->
+        <tstamp/>
+
+        <!-- Delete the temp directory -->
+        <delete dir="${TEMPDIR}" />
+
+    </target>
+
+</project>

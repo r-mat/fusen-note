@@ -1,0 +1,87 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; utf-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-1.4.2.min.js"></script>
+
+<script type="text/javascript">
+
+jQuery.extend({
+    stringify : function stringify(obj) {
+        var t = typeof (obj);
+        if (t != "object" || obj === null) {
+            // simple data type
+            if (t == "string") obj = '"' + obj + '"';
+            return String(obj);
+        } else {
+            // recurse array or object
+            var n, v, json = [], arr = (obj && obj.constructor == Array);
+ 
+            for (n in obj) {
+                v = obj[n];
+                t = typeof(v);
+                if (obj.hasOwnProperty(n)) {
+                    if (t == "string") v = '"' + v + '"'; else if (t == "object" && v !== null) v = jQuery.stringify(v);
+                    json.push((arr ? "" : '"' + n + '":') + String(v));
+                }
+            }
+            return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+        }
+    }
+});
+
+var func_send_json = function(){
+	console.log('POST json start');
+    var json_data = [{"noteid":"specialnote_1","order":"1","title":"","content":"a\'er","positionx":"300px","positiony":"100px","width":"120px","height":"30px","update_date":"20130214012345"},{"noteid":"specialnote_2","order":"2","title":"","content":"dddd","positionx":"550px","positiony":"130px","width":"20px","height":"10px","update_date":"20130214012345"},{"noteid":"specialnote_3","order":"3","title":"","content":"etc","positionx":"587px","positiony":"290px","width":"20px","height":"20px","update_date":"20130214012345"}];
+    var string_data = $.stringify(json_data);
+    //var string_data = 'my name is ryota matsumura.';
+    $.ajax(
+        {
+            url:'<%=request.getContextPath()%>/noteupload.do',
+            type:'POST',
+            data:string_data,
+            error:function(){},
+            complete:function(data){document.getElementById('result').innerHTML = data.responseText;},
+            //dataType:'json',
+            processData :false
+        }
+    );
+    
+    console.log('POST json end');
+}
+
+var func_get_json = function(){
+	console.log('GET json start');
+    $.ajax(
+        {
+            url:'<%=request.getContextPath()%>/notedownload.do',
+            type:'GET',
+            error:function(){},
+            complete:function(data){document.getElementById('result2').innerHTML = data.responseText;},
+            //dataType:'json',
+            processData :false
+        }
+    );
+    
+    console.log('GET json end');
+}
+
+func_send_json();
+//func_get_json();
+
+</script>
+
+</head>
+<body>
+<h1>Json送信</h1>
+<form name="test">
+<input type="button" name="sousin" value="送信" onclick="func_send_json()">
+<div id="result"></div>
+<div id="result2"></div>
+</form>
+</body>
+</html>

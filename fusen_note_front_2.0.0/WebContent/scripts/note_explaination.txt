@@ -1,0 +1,16 @@
+//note
+Basicnoteapp.NOTEJSON_NOTEID = "noteid";
+Basicnoteapp.NOTEJSON_ORDER = "order";
+Basicnoteapp.NOTEJSON_TITLE = "title";
+Basicnoteapp.NOTEJSON_CONTENT = "content";
+Basicnoteapp.NOTEJSON_LEFT = "positionx";
+Basicnoteapp.NOTEJSON_TOP = "positiony";
+Basicnoteapp.NOTEJSON_WIDTH = "width";
+Basicnoteapp.NOTEJSON_HEIGHT = "height";
+Basicnoteapp.NOTEJSON_UPDATEDATE = "update_date";
+
+note_array
+
+note_elem
+note_status
+note_status_array

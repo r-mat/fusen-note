@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//client/com/rmat/fusen/sessionvoid/client/StartSessionVoid.java=UTF-8
+encoding//src/com/rmat/fusen/sessionvoid/bl/SessionVoidMainImpl.java=UTF-8
+encoding//src/com/rmat/fusen/sessionvoid/control/SessionVoidControl.java=UTF-8
+encoding//src/com/rmat/fusen/sessionvoid/db/GoogleCredentialVoidDAO.java=UTF-8

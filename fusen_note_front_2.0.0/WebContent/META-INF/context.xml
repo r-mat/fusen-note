@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context reloadable="false" crossContext="true" debug="0">
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <!-- JDBC Resource -->
+    <Resource
+        name="@jdbc_res_name@"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="@jdbc_driver@"
+        url="@jdbc_connectionurl@"
+        username="@jdbc_user@"
+        password="@jdbc_password@"
+        maxActive="@jdbc_maxactive@"
+        maxIdle="@jdbc_maxidle@"
+        maxWait="@jdbc_maxwait@"
+    />
+
+
+</Context>

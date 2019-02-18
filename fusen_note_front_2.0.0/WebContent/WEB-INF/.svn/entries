@@ -1,0 +1,58 @@
+8
+
+dir
+13
+https://subversion.assembla.com/svn/project-rmat/trunk/fusen-note2.0/head/fusen_note_front_2.0.0/WebContent/WEB-INF
+https://subversion.assembla.com/svn/project-rmat
+
+
+
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a26e9184-9d97-4aac-9bed-abd31afebfef
+
+jsp
+dir
+
+lib
+dir
+
+struts-config.xml
+file
+
+
+
+
+2013-08-03T11:51:39.435000Z
+f9520fa6c32625062a1c09dcb5b95e6a
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+
+web.xml
+file
+
+
+
+
+2013-08-03T11:51:39.868000Z
+8370bf49e1637844c8745ef3811f17b9
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+

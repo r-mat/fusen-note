@@ -1,0 +1,131 @@
+<%@page import="com.rmat.fusennote.function.google.GoogleOauthManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fusen Note</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+
+<!-- javascript -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/jquery.flickable-1.0b3.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/smoothness/jquery-ui-1.8.16.custom.css" />
+
+<!-- css -->
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/fusen_style_1.1.css" type="text/css">
+
+<script type="text/javascript">
+var toLogout = function(){
+	location.replace("<%=request.getContextPath() %>/login.do?page_id=logout");
+};
+
+$(document).ready( function(){
+	//アコーディオン
+	$("div#account").hover(function() {
+		$(this).children('ul').show();
+		$(this).children('span').css('color','#1b5ee5');
+		$(this).children('span').css('text-decoration', 'underline');
+	}, function() {
+		$(this).children('ul').hide();
+		$(this).children('span').css('color','');
+		$(this).children('span').css('text-decoration', 'none');
+	});
+});
+</script>
+
+</head>
+
+<%
+	String email = (String)request.getSession().getAttribute(GoogleOauthManager.EMAIL_KEY);
+	boolean login_flg = false;
+	if(email != null){
+		login_flg = true;
+	}
+	else{
+		email = "";
+	}
+
+%>
+<body>
+<div style="margin:0 auto; width:980px;">
+
+<div class="headerspace">
+	<div class="headerleft">
+		<div><a style="text-decoration: none;" href="<%=request.getContextPath() %>/">
+				<img id="logo-img1" src="<%=request.getContextPath() %>/images/logo_1.png" border="0" alt="Fusen Note" />
+			</a>
+		</div>
+		<br>
+		<div>
+			<img id="logo-img2" src="<%=request.getContextPath() %>/images/logo_2.png" border="0" alt="Online Fusen Application" />
+		</div>
+	</div>
+
+<%
+if(login_flg == true){
+%>
+	<div class="headerright">
+		<div id="account">
+			<span><%=email %></span>
+			<ul id="account-menu">
+				<li onclick="toLogout()">
+					<img id="user_icon" border="0" src="<%=request.getContextPath() %>/images/icon/logout_icon_grey.png" style="height:20px; vertical-align:middle;">
+            		<span style="color:#1b5ee5;">ログアウト</span>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	
+<%
+}
+%>
+</div>
+<div class="bodyspace">
+    <div class="bodyleft">
+    	<h4>オンラインで利用できる付箋サービスです。<br>付箋は自分のGoogleDriveに保存することができます。</h4>
+    </div>
+    <div class="bodyright">
+    	<div class="loginwindow">
+    		利用開始<br><br>
+			
+			<br>
+    		<a style="text-decoration: none;" href="<%=request.getContextPath() %>/authgoogledrive.do?page_id=oauth">
+    			<div class="usualbutton" id="usegoogledrivebtn">
+    				<img style="height:30px;" src="<%=request.getContextPath() %>/images/icon/googledrive_logo.png" border="0"></img><br>
+    				Googleドライブに保存する
+    			</div>
+    		</a>
+    		<br><br>
+    		
+    		<br>
+<%
+if(login_flg == false){
+%>
+    		<a style="text-decoration: none;" href="/board.do?page_id=show_board_nologin">
+    			<div class="usualbutton">試しに使ってみる</div>
+    		</a>
+<%
+}
+%>
+    		<div style="position:absolute; bottom: 5px; font-size:80%;">FusenNoteはOAuthを利用しています。
+    		</div>		
+    	</div>
+    </div>
+</div>
+</div>
+
+<div class="footerspace">
+	<div align="center"><p>Copyright © rmat All Rights Reserved.</p></div>
+</div>
+	
+</body>
+</html>

@@ -1,0 +1,77 @@
+8
+
+dir
+13
+https://subversion.assembla.com/svn/project-rmat/trunk/fusen-note2.0/head/fusen_note_front_2.0.0/WebContent
+https://subversion.assembla.com/svn/project-rmat
+
+
+
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a26e9184-9d97-4aac-9bed-abd31afebfef
+
+META-INF
+dir
+
+WEB-INF
+dir
+
+error404.html
+file
+
+
+
+delete
+2013-08-03T11:51:31.363000Z
+490c2fa53b7481d36cee645d2ea1bc49
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+
+error500.html
+file
+
+
+
+delete
+2013-08-03T11:51:31.321000Z
+8b68732debfdf2bbdd39161ede1c05f1
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+
+html
+dir
+
+
+
+add
+
+index.jsp
+file
+
+
+
+
+2013-08-03T11:51:31.328000Z
+c5b6fef0fdb7a2acb84d8edf7458cb62
+2013-08-02T05:03:33.038704Z
+11
+r-mat
+

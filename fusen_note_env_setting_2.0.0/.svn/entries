@@ -1,0 +1,40 @@
+8
+
+dir
+13
+https://subversion.assembla.com/svn/project-rmat/trunk/fusen-note2.0/head/fusen_note_env_setting_2.0.0
+https://subversion.assembla.com/svn/project-rmat
+
+
+
+2013-08-02T05:04:06.529854Z
+12
+r-mat
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a26e9184-9d97-4aac-9bed-abd31afebfef
+
+.project
+file
+
+
+
+
+2013-08-03T11:54:18.020000Z
+e6056c7ab0626d645796e3d9d48f13e9
+2013-08-02T05:04:06.529854Z
+12
+r-mat
+

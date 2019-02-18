@@ -1,0 +1,307 @@
+/*============================================
+body
+============================================*/
+body {
+	overflow:hidden;	
+}
+/*============================================
+header
+============================================*/
+
+/*============================================
+menu
+============================================*/
+img#logo-img1:hover {
+    cursor: pointer;
+}
+
+img#logo-img2:hover {
+    cursor: pointer;
+}
+
+div.menuboard {
+	position: fixed;
+	/width: 400px;
+	height: 60px;
+    left: 20px;
+    top: 20px;
+}
+
+div#toplogo {
+	position:relative;
+	/width:250px;
+	/height:60px;
+	float:left;
+}
+
+div#account {
+	float:left;
+	position:relative;
+	//width:300px;
+	height:50px;
+	margin-left:50px;
+    font-family: "ＭＳ Ｐゴシック",sans-serif;
+    color: #696969;
+    font-size: 15px;
+    font-weight: bold;
+
+}
+
+div#account:hover {
+	cursor:pointer;
+}
+
+div#account img#account-icon {
+	float:left;
+	margin-right:10px;
+}
+
+div#account span {
+	position:relative;
+	vertical-align:middle;
+}
+
+ul#account-menu {
+	clear:left;
+	margin:0px;
+	padding:0px;
+	display: none;
+	position:absolute;
+	top:30px;
+	list-style-type: none;
+}
+
+ul#account-menu li {
+	margin:0;
+	padding:0;
+	width:100px;
+	height:20px;
+	color: #696969;
+	list-style: none; 
+}
+
+ul#account-menu li > span {
+	color: #696969;
+}
+
+ul#account-menu li > span:hover {
+	text-decoration:underline;
+}
+
+ul#menu {
+	clear:left;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	width: 200px;
+	position: relative;
+	top: 10px;
+	display: block;
+	height: 30px;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+}
+
+ul#menu li.menuicon {
+	width: 170px;
+	height:45px;
+	display: block;df555
+	float: left;
+	padding-top:0px;
+	padding-bottom:0px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    position: relative;
+	background: none;
+	
+}
+
+
+ul#menu li.menuicon:hover {
+	width: 170px;
+	height:45px;
+	display: block;df555
+	float: left;
+	padding-top:0px;
+	padding-bottom:0px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    position: relative;
+    cursor: pointer;
+    background:rgba(0,0,200,0.1);
+	
+}
+
+
+ul#menu li ul.submenu {
+    list-style: none;  
+    position: absolute; 
+    /*--Important - Keeps subnav from affecting main navigation flow--*/  
+    left: 70px; 
+    top: 5px;  
+    background: rgba(20,20,20,0.3);  
+    margin: 0; padding: 0;  
+    display: none;  
+    float: left;  
+    width: 170px;  
+    //border: 1px solid #111;
+}
+
+ul#menu li ul.submenu li{
+    margin: 5px; padding: 0;
+    color: rgba(255,255,255,1);  
+    //border-top: 1px solid #252525; /*--Create bevel effect--*/  
+    //border-bottom: 1px solid #444; /*--Create bevel effect--*/  
+    clear: both;  
+    width: 170px; 
+}
+
+/*============================================
+boardflame
+============================================*/
+div#boardflame {
+	width: 100%;
+	height:1000px;
+	border: 2px solid #C0C0C0;
+	overflow:hidden;
+}
+div#boardflame .container {
+	height:100%;
+}
+div#boardflame .ui-flickable-container {
+	height:100%;
+	cursor: default;
+}
+div#boardflame .ui-flickable-disabled .ui-flickable-container, #flickable5 .ui-flickable-canceled {
+	cursor: default;
+}
+div#boardflame .block {
+	background-color: #EEE;
+	float: left;
+}
+/*============================================
+guide window canvas
+============================================*/
+div#guidewindow{
+	position: fixed;
+	//left: 30px;
+	//top: 160px;
+}
+canvas#guidecanvas{
+	/width: 200px;
+	/height: 100px;
+}
+/*============================================
+board
+============================================*/
+div.specialboard {
+	position: relative;
+	/height: 2050px;
+	/width: 3360px;
+	overflow: hidden;
+
+}
+
+/*============================================
+note
+============================================*/
+div.specialnote {
+	position: absolute;
+	width: 120px;
+	height: 60px;
+	padding: 10px;
+	background: #f1f3a2;
+	//background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(247, 247, 210, 1)), to(rgba(210, 212, 135, 1) ) );
+	//background: -moz-linear-gradient(top, rgba(247, 247, 210, 1),rgba(240, 242, 155, 1) );
+	border: 1px solid #bfbfbf;
+	-webkit-box-shadow: 0 1px 5px rgba(10,10,10,0.75);
+    -moz-box-shadow: 0 1px 5px rgba(10,10,10,0.75);
+    box-shadow: 0 1px 5px rgba(10,10,10,0.75);
+}
+
+div.specialnote:before {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -5px;
+	width: 45px;
+	height: 25px;
+	z-index: 2;
+}
+
+textarea.specialnote_text {
+	font-size: 15px;
+	padding: 3px;
+	width: 100%;
+	height: 80%;
+	resize: none;
+	overflow: hidden;
+	background: #f1f3a2;
+	background-color: transparent;
+	outline: 0;
+	border: none;
+	border: 0;
+}
+
+img.specialnote_closebtn {
+	padding: 5px;
+}
+
+/*============================================
+display lock
+============================================*/
+#displaylock {
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  text-align: center;
+  display: none;
+  opacity: 0.4;
+}
+
+/*============================================
+footer
+============================================*/
+div#footer{
+    position:absolute;
+    bottom:0px;
+    height:60px;
+    width:100%;
+    background-color:#fafad2;
+    overflow: hidden;
+    text-align:left;
+}
+
+div#footer p{
+  font-size:12px;
+}
+
+#footernavi{
+  width:100%;
+}
+
+#footernavi a{
+  display:block;
+  width:120px;
+  color: #000;
+  padding-top: 1px;
+  float: left;
+  text-decoration: none;
+  font-size:12px;
+  margin:5px;
+}
+
+#footernavi ul{
+  display:inline;
+  padding:0px;
+}
+#footernavi li{
+  display:inline;
+  padding:0px;
+  list-style-type:none;
+}
